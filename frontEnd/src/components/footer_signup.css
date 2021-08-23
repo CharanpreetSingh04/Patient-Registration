@@ -1,0 +1,13 @@
+.Footer_home{
+    bottom: 0;
+    background-color: #563d7c;
+    color: lightblue;
+    padding: 0.5em;
+    margin-top: auto;
+    text-align: center;
+    /* position: fixed;  */
+    width: 100%;
+}
+.Footer_home:hover{
+    color: yellowgreen;
+}
