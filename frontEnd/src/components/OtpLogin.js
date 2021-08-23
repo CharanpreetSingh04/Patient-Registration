@@ -6,8 +6,9 @@ import axios from 'axios';
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 const OtpLogin = () => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const history=useHistory();
-
+    const [errorMessage,setErrorMessage]=useState('');
     const [email, setEmail] = useState("");
     const [otp, setOtp] = useState("");
     const handleEmailChange = (event) => {
@@ -29,6 +30,7 @@ const OtpLogin = () => {
         const patient_REST_API_URL="http://localhost:8080/api/v1/otp";
         axios.get(patient_REST_API_URL,config).then(function(response){
             otp.value=response.data.otp;
+            setOtp(otp.value);
             login.disabled=false;
         });
     }
@@ -47,6 +49,10 @@ const OtpLogin = () => {
           const patient_REST_API_URL="http://localhost:8080/api/v1/patients/"+email.value;
           axios.get(patient_REST_API_URL,config).then(function (response) {
               console.log(response.data);
+              if(response.data.email==null){
+                  setErrorMessage('Account is Locked');
+                  return;
+              }
               otp.value=""
               email.value=""
               let path='/Landing';
@@ -55,7 +61,7 @@ const OtpLogin = () => {
                 state: { detail: response.data }
               });
             }).catch(function (error) {
-                  alert('Account does not exist');
+                  setErrorMessage('Account does not exist');
             });
     }
     return (
@@ -78,6 +84,12 @@ const OtpLogin = () => {
                                 Email Id
                              </label>
                              <input  id="email"  type='email' required onChange={handleEmailChange} className="input-field-background form-control" />
+                             {!email && (
+                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                             )}
+                             {!re.test(String(email).toLowerCase()) && (
+                                <p style={{color: 'red'}} className="error"> {"*Should in correct format"} </p>
+                             )}
                           </Col>
                         </Row>
                       
@@ -86,13 +98,15 @@ const OtpLogin = () => {
                             <label color="primary" className="px-4">
                                 Otp
                              </label>
-                             <input id="otp" type='password' required onChange={handleOtpChange} disabled={!email} className="input-field-background form-control"/>
+                             <input id="otp" type='text' required onChange={handleOtpChange} disabled={!email} className="input-field-background form-control"/>
+                             {!otp && (
+                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                             )}
                           </Col>
                         </Row>
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
                           <Col xs="6">                      
-                            <Button color="lightblue" text="Send Otp" onClick={requestOtp} />
-                    
+                            <Button color="lightblue" text="Send Otp" onClick={requestOtp}  disabled={!email} />
                           </Col>
                         </Row>
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
@@ -101,8 +115,9 @@ const OtpLogin = () => {
                     
                           </Col>
                         </Row>
-                        
-                        
+                        {errorMessage && (<Row style={{justifyContent: 'center'}}>
+                          <Col xs="6" style={{color: 'red'}} className="error"> {'*'+errorMessage} </Col></Row>
+                        )}
             </Container>
             <Footer/>
           </div>

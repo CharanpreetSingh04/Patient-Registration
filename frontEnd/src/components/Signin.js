@@ -7,11 +7,10 @@ import { BrowserRouter as Router, Route, Switch, Redirect,useHistory } from 'rea
 import Footer from './Footer';
 
 const Signin =() =>{
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const history = useHistory();
-    var flag=0;
-    var date=new Date();
-    var time= date.getTime();
-    console.log('Sign In called')
+    console.log('Sign In called');
+    const [errorMessage,setErrorMessage]=useState('');
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -53,23 +52,22 @@ const Signin =() =>{
           }
           else{
             pass.value=""
-            email.value=""
-            flag=2;
-            axios.get(patient_REST_API_URL+'/invalidPassword',config).then(function(response){
-              if(response.data.allowed>=0){
-                alert('Password is incorrect');
-              }
-            });
+            email.value="";
             axios.get(patient_REST_API_URL,config).then(function(response){
               if(response.data.email==null){
-                alert("Your account has been locked");
+                setErrorMessage("Your account has been locked");
+              }
+              else{
+                axios.get(patient_REST_API_URL+'/invalidPassword',config).then(function(response){
+                    setErrorMessage('Password is incorrect');
+                });
               }
             });
+            
           }
         //return response.data;
         }).catch(function (error) {
-              flag=3;
-              alert('Account does not exist');
+              setErrorMessage('Account does not exist');
         });
     }
     
@@ -93,32 +91,41 @@ const Signin =() =>{
                             <label color="primary" className="px-4">
                                 Email Id
                              </label>
-                             <input  id="email"  type='email' required onChange={handleEmailChange} className="input-field-background form-control" />
+                             <input  id="email"  type='email' onChange={handleEmailChange} className="input-field-background form-control" />
+                             {!email && (
+                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                             )}
+                             {!re.test(String(email).toLowerCase()) && (
+                                <p style={{color: 'red'}} className="error"> {"*Should in correct format"} </p>
+                             )}
                           </Col>
+                          
                         </Row>
-                      
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
                           <Col xs="6">                      
                             <label color="primary" className="px-4">
                                 Password
                              </label>
                              <input id="pass" type='password' required onChange={handlePasswordChange} className="input-field-background form-control"/>
+                             {!password && (
+                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                             )}
                           </Col>
                         </Row>
                         
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
                           <Col xs="6">                      
                             <Button color="lightblue" text="Login" onClick={redirectLanding} disabled={!email || !password}/>
-                    
                           </Col>
                         </Row>
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
                           <Col xs="6">                      
-                            <Button color="lightblue" text="Login with Otp" onClick={redirectOtpLogin}/>
-                                
+                            <Button color="lightblue" text="Login with Otp" onClick={redirectOtpLogin}/>    
                           </Col>
                         </Row>
-                        
+                        {errorMessage && (<Row style={{justifyContent: 'center'}}>
+                          <Col xs="6" style={{color: 'red'}} className="error"> {'*'+errorMessage} </Col></Row>
+                        )}
             </Container>
             <Footer/>
           </div>
