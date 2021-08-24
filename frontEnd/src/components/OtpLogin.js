@@ -5,12 +5,15 @@ import Button from './Button'
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import { useState } from 'react';
+import Timer from './Timer';
 const OtpLogin = () => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const history=useHistory();
     const [errorMessage,setErrorMessage]=useState('');
     const [email, setEmail] = useState("");
     const [otp, setOtp] = useState("");
+    const [otp_sent, setOtpSent] = useState("");
+
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     };
@@ -18,6 +21,7 @@ const OtpLogin = () => {
         setOtp(event.target.value);
     };
     const requestOtp=()=>{
+        setOtpSent('Sent');
         const config = {
             headers: {
               "Access-Control-Allow-Origin": "*",
@@ -31,6 +35,7 @@ const OtpLogin = () => {
         axios.get(patient_REST_API_URL,config).then(function(response){
             otp.value=response.data.otp;
             setOtp(otp.value);
+            setOtpSent('');
             login.disabled=false;
         });
     }
@@ -44,11 +49,8 @@ const OtpLogin = () => {
           };
           var email=document.getElementById('email');
           var otp=document.getElementById('otp');
-
-          console.log(email.value)
           const patient_REST_API_URL="http://localhost:8080/api/v1/patients/"+email.value;
           axios.get(patient_REST_API_URL,config).then(function (response) {
-              console.log(response.data);
               if(response.data.email==null){
                   setErrorMessage('Account is Locked');
                   return;
@@ -80,33 +82,37 @@ const OtpLogin = () => {
             <Container>
                         <Row style={{marginTop: 10 ,justifyContent:'center' }}>
                           <Col xs="6">                      
-                            <label color="primary" className="px-4">
+                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
                                 Email Id
                              </label>
                              <input  id="email"  type='email' required onChange={handleEmailChange} className="input-field-background form-control" />
                              {!email && (
-                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
                              )}
                              {!re.test(String(email).toLowerCase()) && (
-                                <p style={{color: 'red'}} className="error"> {"*Should in correct format"} </p>
+                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Should in correct format"} </p>
                              )}
                           </Col>
                         </Row>
                       
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
                           <Col xs="6">                      
-                            <label color="primary" className="px-4">
+                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
                                 Otp
                              </label>
                              <input id="otp" type='text' required onChange={handleOtpChange} disabled={!email} className="input-field-background form-control"/>
                              {!otp && (
-                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
                              )}
                           </Col>
                         </Row>
+                        
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
                           <Col xs="6">                      
                             <Button color="lightblue" text="Send Otp" onClick={requestOtp}  disabled={!email} />
+                            {
+                              otp_sent&&<Timer />
+                            }
                           </Col>
                         </Row>
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
@@ -116,7 +122,7 @@ const OtpLogin = () => {
                           </Col>
                         </Row>
                         {errorMessage && (<Row style={{justifyContent: 'center'}}>
-                          <Col xs="6" style={{color: 'red'}} className="error"> {'*'+errorMessage} </Col></Row>
+                          <Col xs="6" style={{color: 'red',fontSize: 20}} className="error"> {'*'+errorMessage} </Col></Row>
                         )}
             </Container>
             <Footer/>

@@ -20,7 +20,6 @@ const Header = () => {
                 Patient Portal
             </h1>
             <Button color='lightblue' text='Sign In' disabled={false} onClick={callSigin}/>
-              
             <Button color='lightblue' text='Sign Up' disabled={false} onClick={callSignup}/>
             <h2 className='modalContainer'>
                 healthi.in
@@ -43,6 +42,5 @@ const Header = () => {
       </div>
     )
 }
-//Component
 
 export default Header

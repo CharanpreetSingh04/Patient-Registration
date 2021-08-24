@@ -4,6 +4,7 @@ import { useLocation } from 'react-router';
 import Footer from './Footer';
 import Button from './Button';
 import {Card,Button as Button_} from 'react-bootstrap';
+import { Container } from 'reactstrap';
 
 const Landing = () => {
                 const location = useLocation();
@@ -18,15 +19,15 @@ const Landing = () => {
                           <h2 className='modalContainer'>Hi, {" "+location.state.detail.firstName + " " + location.state.detail.lastName} </h2>
                           <Button color='lightblue' text='Logout' onClick={callSigin}/>
                       </header>
-                      <div className="row">
+                      <Container>
                           <table className="table table-striped table-bordered">
                               <thead>
                                   <tr>
-                                      <th>First Name</th>
-                                      <th>Last Name</th>
-                                      <th>Blood Group</th>
-                                      <th>Email id</th>
-                                      <th>phone Number</th>
+                                      <th style={{fontWeight: 'bold'}}>First Name</th>
+                                      <th style={{fontWeight: 'bold'}}>Last Name</th>
+                                      <th style={{fontWeight: 'bold'}}>Blood Group</th>
+                                      <th style={{fontWeight: 'bold'}}>Email id</th>
+                                      <th style={{fontWeight: 'bold'}}>phone Number</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -51,7 +52,7 @@ const Landing = () => {
                             </Card>
                           </div>
                           
-                      </div>
+                      </Container>
                       
                       <Footer/>
                   </div>

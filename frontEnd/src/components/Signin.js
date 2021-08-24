@@ -9,7 +9,6 @@ import Footer from './Footer';
 const Signin =() =>{
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const history = useHistory();
-    console.log('Sign In called');
     const [errorMessage,setErrorMessage]=useState('');
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -39,7 +38,6 @@ const Signin =() =>{
       
       const patient_REST_API_URL="http://localhost:8080/api/v1/patients/"+email.value;
         axios.get(patient_REST_API_URL,config).then(function (response) {
-          console.log(response.data);
           if(response.data.password==pass.value){
                     pass.value=""
                     email.value=""
@@ -65,7 +63,6 @@ const Signin =() =>{
             });
             
           }
-        //return response.data;
         }).catch(function (error) {
               setErrorMessage('Account does not exist');
         });
@@ -88,27 +85,27 @@ const Signin =() =>{
             <Container>
                         <Row style={{marginTop: 10 ,justifyContent:'center' }}>
                           <Col xs="6">                      
-                            <label color="primary" className="px-4">
+                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
                                 Email Id
                              </label>
                              <input  id="email"  type='email' onChange={handleEmailChange} className="input-field-background form-control" />
                              {!email && (
-                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
                              )}
                              {!re.test(String(email).toLowerCase()) && (
-                                <p style={{color: 'red'}} className="error"> {"*Should in correct format"} </p>
+                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Should in correct format"} </p>
                              )}
                           </Col>
                           
                         </Row>
                         <Row style={{marginTop: 10,justifyContent:'center'}}>
                           <Col xs="6">                      
-                            <label color="primary" className="px-4">
+                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
                                 Password
                              </label>
                              <input id="pass" type='password' required onChange={handlePasswordChange} className="input-field-background form-control"/>
                              {!password && (
-                                <p style={{color: 'red'}} className="error"> {"*Required"} </p>
+                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
                              )}
                           </Col>
                         </Row>
@@ -124,7 +121,7 @@ const Signin =() =>{
                           </Col>
                         </Row>
                         {errorMessage && (<Row style={{justifyContent: 'center'}}>
-                          <Col xs="6" style={{color: 'red'}} className="error"> {'*'+errorMessage} </Col></Row>
+                          <Col xs="6" style={{color: 'red',fontSize: 20}} className="error"> {'*'+errorMessage} </Col></Row>
                         )}
             </Container>
             <Footer/>
