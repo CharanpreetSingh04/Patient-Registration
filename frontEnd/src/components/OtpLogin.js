@@ -55,6 +55,10 @@ const OtpLogin = () => {
                   setErrorMessage('Account is Locked');
                   return;
               }
+              else if(response.data.email=="not account"){
+                setErrorMessage('Account doesnot exist');
+                return;
+              }
               otp.value=""
               email.value=""
               let path='/Landing';
@@ -62,8 +66,6 @@ const OtpLogin = () => {
                 pathname: path,
                 state: { detail: response.data }
               });
-            }).catch(function (error) {
-                  setErrorMessage('Account does not exist');
             });
     }
     return (
@@ -80,34 +82,34 @@ const OtpLogin = () => {
             </header>
 
             <Container>
-                        <Row style={{marginTop: 10 ,justifyContent:'center' }}>
+                        <Row className="Row">
                           <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
+                            <label color="primary" className="px-4">
                                 Email Id
                              </label>
                              <input  id="email"  type='email' required onChange={handleEmailChange} className="input-field-background form-control" />
                              {!email && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                              {!re.test(String(email).toLowerCase()) && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Should in correct format"} </p>
+                                <p> {"*Should in correct format"} </p>
                              )}
                           </Col>
                         </Row>
                       
-                        <Row style={{marginTop: 10,justifyContent:'center'}}>
+                        <Row className="Row">
                           <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
+                            <label color="primary" className="px-4">
                                 Otp
                              </label>
                              <input id="otp" type='text' required onChange={handleOtpChange} disabled={!email} className="input-field-background form-control"/>
                              {!otp && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                           </Col>
                         </Row>
                         
-                        <Row style={{marginTop: 10,justifyContent:'center'}}>
+                        <Row className="Row">
                           <Col xs="6">                      
                             <Button color="lightblue" text="Send Otp" onClick={requestOtp}  disabled={!email} />
                             {
@@ -115,14 +117,14 @@ const OtpLogin = () => {
                             }
                           </Col>
                         </Row>
-                        <Row style={{marginTop: 10,justifyContent:'center'}}>
+                        <Row className="Row">
                           <Col xs="6">                      
                             <Button color="lightblue" text="Login" id="Login" onClick={redirectLanding} disabled={!email || !otp}/>
                     
                           </Col>
                         </Row>
-                        {errorMessage && (<Row style={{justifyContent: 'center'}}>
-                          <Col xs="6" style={{color: 'red',fontSize: 20}} className="error"> {'*'+errorMessage} </Col></Row>
+                        {errorMessage && (<Row className="Row">
+                          <Col xs="6" className="error"> {'*'+errorMessage} </Col></Row>
                         )}
             </Container>
             <Footer/>

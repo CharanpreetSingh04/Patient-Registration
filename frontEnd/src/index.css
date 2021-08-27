@@ -136,3 +136,32 @@ button:hover{
   color: rgb(173, 230, 182);
   text-decoration: none;
 }
+th{
+  font-weight: bold;
+}
+.my_orders{
+  justify-content: center;
+  padding-left: 40%;
+  margin-top: 30;
+  max-width: 100%
+}
+label{
+  font-weight: bold;
+  margin-left: 35%;
+}
+
+p{
+  color: red;
+  font-size: smaller;
+}
+.error{
+  color: red;
+  font-size: medium;
+}
+.Row{
+  justify-content: center;
+}
+h4{
+  font-style: italic;
+}
+

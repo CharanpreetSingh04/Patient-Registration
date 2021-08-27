@@ -88,13 +88,6 @@ const Signup =() => {
           history.push(path);
         }
       })
-      // }).catch(function (error) {
-      //   if (error.response) {
-      //     axios.post(patients_REST_API_URL,article,config);
-      //     let path='/Signin';
-      //     history.push(path);
-      //   }
-      // });
     }
     return (
 
@@ -109,100 +102,100 @@ const Signup =() => {
                     </a>
                 </h2>
             </header>
-            <Container style={{alignContent: 'center'}} >
-                        <Row style={{justifyContent:'center'}}>
+            <Container>
+                        <Row className="Row">
                         <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4" >
+                            <label color="primary" className="px-4" >
                                 First Name
                              </label>
                              <input  type='text' id="firstName" required onChange={handleFirstName} className="input-field-background form-control"/>
                              {!firstName && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                           </Col>
                           
                         </Row>
-                        <Row style={{justifyContent:'center'}}>
+                        <Row className="Row">
                         <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4" >
+                            <label color="primary" className="px-4" >
                                 Last Name
                              </label>
                              <input  type='text' id="lastName" required onChange={handleLastName} className="input-field-background form-control"/>
                              {!lastName && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                           </Col>
                         </Row>
-                        <Row style={{justifyContent:'center'}}>
+                        <Row className="Row">
                         <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4" >
+                            <label color="primary" className="px-4" >
                                 Blood Group
                              </label>
                              <input  type='text' id="bloodGroup" required onChange={handleBlood} className="input-field-background form-control"/>
                              {!(blood.toLowerCase()=="a+"||blood.toLowerCase()=="a-"||blood.toLowerCase()=="o+"||blood.toLowerCase()=="o-"||blood.toLowerCase()=="ab+"||blood.toLowerCase()=="ab-"||blood.toLowerCase()=="b+"||blood.toLowerCase()=="b-")&&(
-                                 <p style={{color: 'red',fontSize: 12}} className="error"> {"*Should be valid"} </p>
+                                 <p> {"*Should be valid"} </p>
                              )}
                           </Col>
                         </Row>
-                        <Row style={{justifyContent:'center'}}>
+                        <Row className="Row">
                         <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4" >
+                            <label color="primary" className="px-4" >
                                 Email
                              </label>
                              <input  type='email' id="email" required onChange={handleEmail} className="input-field-background form-control"/>
                              {!email && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                              {!re.test(String(email).toLowerCase()) && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Should in correct format"} </p>
+                                <p> {"*Should in correct format"} </p>
                              )}
                           </Col>
                         </Row>
-                        <Row style={{justifyContent:'center'}}>
+                        <Row className="Row">
                         <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4" >
+                            <label color="primary" className="px-4" >
                                 Phone Number
                              </label>
                              <input  type='tel' id="phone" required onChange={handlePhone} className="input-field-background form-control"/>
                              {!phone && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                              {(phone.length<10||phone.length>10) && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Phone length should be 10"} </p>
+                                <p> {"*Phone length should be 10"} </p>
                              )}
                           </Col>
                         </Row>
 
-                        <Row style={{justifyContent:'center'}}>
+                        <Row className="Row">
                         <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4" >
+                            <label color="primary" className="px-4" >
                                 Password
                              </label>
                              <input  type='password' id="password" required onChange={handlePassword} className="input-field-background form-control"/>
                              {!password && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                           </Col>
                         </Row>
-                        <Row style={{justifyContent:'center'}}>
+                        <Row className="Row">
                         <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4" >
+                            <label color="primary" className="px-4" >
                                 Confirm Password
                              </label>
                              <input type='password' id="confirmPassword"  required onChange={handleConfirmPassword} className="input-field-background form-control"/>
                              {(password!=confirmPassword) && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Passwords don't match"} </p>
+                                <p> {"*Passwords don't match"} </p>
                              )}
                              
                           </Col>
                         </Row>
-                        <Row style={{justifyContent:'center'}}>
+                        <Row className="Row">
                           <Col xs="6">                      
                             <Button color="lightblue" text="Register" disabled={(!email||!password||!firstName||!lastName||!blood||!phone)&&true} onClick={register}/>
                           </Col>
                         </Row>
-                        {errorMessage && (<Row style={{justifyContent: 'center'}}>
-                          <Col xs="6" style={{color: 'red',fontSize: 20}} className="error"> {'*'+errorMessage} </Col></Row>
+                        {errorMessage && (<Row className="Row">
+                          <Col xs="6" className="error"> {'*'+errorMessage} </Col></Row>
                         )}
             </Container>
             

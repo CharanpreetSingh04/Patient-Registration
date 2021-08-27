@@ -37,8 +37,8 @@ const Signin =() =>{
       
       
       const patient_REST_API_URL="http://localhost:8080/api/v1/patients/"+email.value;
-        axios.get(patient_REST_API_URL,config).then(function (response) {
-          if(response.data.password==pass.value){
+        axios.get(patient_REST_API_URL+"/"+pass.value,config).then(function (response) {
+          if(response.data.password!=null){
                     pass.value=""
                     email.value=""
                     let path='/Landing';
@@ -51,16 +51,12 @@ const Signin =() =>{
           else{
             pass.value=""
             email.value="";
-            axios.get(patient_REST_API_URL,config).then(function(response){
               if(response.data.email==null){
                 setErrorMessage("Your account has been locked");
               }
               else{
-                axios.get(patient_REST_API_URL+'/invalidPassword',config).then(function(response){
                     setErrorMessage('Password is incorrect');
-                });
               }
-            });
             
           }
         }).catch(function (error) {
@@ -83,45 +79,45 @@ const Signin =() =>{
             </header>
 
             <Container>
-                        <Row style={{marginTop: 10 ,justifyContent:'center' }}>
+                        <Row className="Row">
                           <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
+                            <label color="primary" className="px-4">
                                 Email Id
                              </label>
                              <input  id="email"  type='email' onChange={handleEmailChange} className="input-field-background form-control" />
                              {!email && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                              {!re.test(String(email).toLowerCase()) && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Should in correct format"} </p>
+                                <p > {"*Should in correct format"} </p>
                              )}
                           </Col>
                           
                         </Row>
-                        <Row style={{marginTop: 10,justifyContent:'center'}}>
+                        <Row className="Row">
                           <Col xs="6">                      
-                            <label style={{fontWeight: 'bold'}} color="primary" className="px-4">
+                            <label color="primary" className="px-4">
                                 Password
                              </label>
                              <input id="pass" type='password' required onChange={handlePasswordChange} className="input-field-background form-control"/>
                              {!password && (
-                                <p style={{color: 'red',fontSize: 12}} className="error"> {"*Required"} </p>
+                                <p> {"*Required"} </p>
                              )}
                           </Col>
                         </Row>
                         
-                        <Row style={{marginTop: 10,justifyContent:'center'}}>
+                        <Row className="Row">
                           <Col xs="6">                      
                             <Button color="lightblue" text="Login" onClick={redirectLanding} disabled={!email || !password}/>
                           </Col>
                         </Row>
-                        <Row style={{marginTop: 10,justifyContent:'center'}}>
+                        <Row className="Row">
                           <Col xs="6">                      
                             <Button color="lightblue" text="Login with Otp" onClick={redirectOtpLogin}/>    
                           </Col>
                         </Row>
-                        {errorMessage && (<Row style={{justifyContent: 'center'}}>
-                          <Col xs="6" style={{color: 'red',fontSize: 20}} className="error"> {'*'+errorMessage} </Col></Row>
+                        {errorMessage && (<Row className="Row">
+                          <Col xs="6" className="error"> {'*'+errorMessage} </Col></Row>
                         )}
             </Container>
             <Footer/>
